@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Heart, Mail, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -74,19 +74,8 @@ const Footer = () => {
                 className="flex items-center space-x-2 hover:text-white transition-colors duration-300"
               >
                 <Mail className="h-5 w-5 flex-shrink-0" />
-                <span>contact@shadownik.org</span>
+                <span>info@shadownik.online</span>
               </a>
-              <a
-                href="tel:+15551234567"
-                className="flex items-center space-x-2 hover:text-white transition-colors duration-300"
-              >
-                <Phone className="h-5 w-5 flex-shrink-0" />
-                <span>+1 (555) 123-4567</span>
-              </a>
-              <div className="flex items-start space-x-2">
-                <MapPin className="h-5 w-5 flex-shrink-0 mt-1" />
-                <span>123 Community St, City, Country</span>
-              </div>
             </div>
           </div>
 
@@ -117,8 +106,8 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center text-emerald-300 text-sm">
             <p>© {currentYear} Shadownik. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white transition-colors duration-300">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors duration-300">Terms of Service</a>
+              <a href="/legal/PrivacyPolicy" className="hover:text-white transition-colors duration-300">Privacy Policy</a>
+              <a href="/legal/Terms" className="hover:text-white transition-colors duration-300">Terms of Service</a>
               <a href="#" className="hover:text-white transition-colors duration-300">Cookie Policy</a>
             </div>
           </div>

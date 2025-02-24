@@ -1,5 +1,4 @@
-import React from 'react';
-import { ArrowRight, Heart, Users, Leaf, Brain, Book, Globe, Target, Award } from 'lucide-react';
+import { ArrowRight, Heart, Users, Leaf, Brain, Book, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AnimatedSection from '../components/AnimatedSection';

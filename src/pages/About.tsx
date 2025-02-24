@@ -1,5 +1,5 @@
 import React from 'react';
-import { Target, Award, Users, Globe } from 'lucide-react';
+import { Target, Globe } from 'lucide-react';
 
 const About = () => {
   return (

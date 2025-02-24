@@ -1,5 +1,5 @@
-import React from 'react';
-import { CheckCircle, Clock, Calendar, MapPin } from 'lucide-react';
+
+import { CheckCircle, Clock, MapPin } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 import GlassCard from '../components/GlassCard';
 

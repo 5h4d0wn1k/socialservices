@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { Mail, Clock, Send } from 'lucide-react';
 
 const Contact = () => {
   return (
@@ -15,18 +15,11 @@ const Contact = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white p-8 rounded-lg shadow-lg text-center">
-              <Phone className="h-8 w-8 text-indigo-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Phone</h3>
-              <p className="text-gray-600">+1 (555) 123-4567</p>
-              <p className="text-gray-600">+1 (555) 987-6543</p>
-            </div>
 
             <div className="bg-white p-8 rounded-lg shadow-lg text-center">
               <Mail className="h-8 w-8 text-indigo-600 mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Email</h3>
-              <p className="text-gray-600">contact@shadownik.org</p>
-              <p className="text-gray-600">support@shadownik.org</p>
+              <p className="text-gray-600">info@shadownik.online</p>
             </div>
 
             <div className="bg-white p-8 rounded-lg shadow-lg text-center">
@@ -111,7 +104,7 @@ const Contact = () => {
             {/* Location Info */}
             <div>
               <h2 className="text-3xl font-bold mb-8">Our Location</h2>
-              <div className="bg-gray-100 rounded-lg p-8 mb-8">
+              {/* <div className="bg-gray-100 rounded-lg p-8 mb-8">
                 <div className="flex items-start space-x-4">
                   <MapPin className="h-6 w-6 text-indigo-600 mt-1" />
                   <div>
@@ -124,12 +117,12 @@ const Contact = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
               
               {/* Map Placeholder */}
-              <div className="h-[400px] bg-gray-200 rounded-lg flex items-center justify-center">
+              {/* <div className="h-[400px] bg-gray-200 rounded-lg flex items-center justify-center">
                 <p className="text-gray-600">Map Integration Here</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
