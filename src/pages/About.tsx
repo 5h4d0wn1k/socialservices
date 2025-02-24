@@ -89,7 +89,7 @@ const About = () => {
               {
                 name: "Fadiya Fathima Muhammad",
                 role: "Operations Manager",
-                image: "public/images/fadiya.jpg"
+                image: "images/fadiya.jpg"
               },
             ].map((member, index) => (
               <div key={index} className="text-center">
