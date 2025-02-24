@@ -20,7 +20,7 @@ const About = () => {
         <div className="relative z-10 text-center">
           <h1 className="text-5xl font-bold mb-4">About Shadownik</h1>
           <p className="text-xl max-w-3xl mx-auto px-4">
-            Empowering communities through compassion, innovation, and sustainable social impact.
+            Empowering communities through innovation, sustainability, and impactful solutions.
           </p>
         </div>
       </section>
@@ -35,8 +35,7 @@ const About = () => {
                 <h2 className="text-3xl font-bold">Our Mission</h2>
               </div>
               <p className="text-lg text-gray-600">
-                To create lasting positive change in communities through innovative social service projects,
-                empowering individuals to contribute their time and skills for the greater good.
+                To create a lasting impact by driving innovative solutions across cybersecurity, technology, esports, and business, fostering sustainable growth and community empowerment.
               </p>
             </div>
             <div className="space-y-6">
@@ -45,8 +44,7 @@ const About = () => {
                 <h2 className="text-3xl font-bold">Our Vision</h2>
               </div>
               <p className="text-lg text-gray-600">
-                A world where every individual has the opportunity to contribute to social welfare,
-                creating a network of compassionate communities working together for positive change.
+                To build a world where technology and creativity merge, empowering individuals and businesses to innovate, grow, and make a positive difference.
               </p>
             </div>
           </div>
@@ -58,20 +56,20 @@ const About = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-indigo-600">50+</div>
-              <div className="text-gray-600">Active Projects</div>
+              <div className="text-4xl font-bold text-indigo-600">1+</div>
+              <div className="text-gray-600">Ongoing Projects</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-indigo-600">10k+</div>
-              <div className="text-gray-600">Volunteers</div>
+              <div className="text-4xl font-bold text-indigo-600">2+</div>
+              <div className="text-gray-600">Interns & Collaborators</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-indigo-600">100+</div>
-              <div className="text-gray-600">Communities Served</div>
+              <div className="text-4xl font-bold text-indigo-600">2+</div>
+              <div className="text-gray-600">Community Members</div>
             </div>
             <div className="space-y-2">
-              <div className="text-4xl font-bold text-indigo-600">25+</div>
-              <div className="text-gray-600">Countries Reached</div>
+              <div className="text-4xl font-bold text-indigo-600">0+</div>
+              <div className="text-gray-600">Global Partnerships</div>
             </div>
           </div>
         </div>
@@ -80,24 +78,19 @@ const About = () => {
       {/* Team Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Leadership Team</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Meet Our Leadership Team</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: "Sarah Johnson",
-                role: "Executive Director",
-                image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-              },
+                name: "Nikhil Nagpure",
+                role: "Founder & CEO",
+                image: "images/nikhil.png"
+              },  
               {
-                name: "Michael Chen",
-                role: "Operations Director",
-                image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                name: "Fadiya Fathima Muhammad",
+                role: "Operations Manager",
+                image: "public/images/fadiya.jpg"
               },
-              {
-                name: "Priya Patel",
-                role: "Program Director",
-                image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-              }
             ].map((member, index) => (
               <div key={index} className="text-center">
                 <div className="relative w-48 h-48 mx-auto mb-4">

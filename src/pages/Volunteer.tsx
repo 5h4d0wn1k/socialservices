@@ -1,4 +1,3 @@
-
 import { CheckCircle, Clock, MapPin } from 'lucide-react';
 import AnimatedSection from '../components/AnimatedSection';
 import GlassCard from '../components/GlassCard';
@@ -35,7 +34,7 @@ const Volunteer = () => {
         <div 
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")',
+            backgroundImage: 'url("/images/hero-background.jpg")',
             backgroundSize: 'cover',
             backgroundPosition: 'center'
           }}
@@ -74,37 +73,6 @@ const Volunteer = () => {
                 <CheckCircle className="h-12 w-12 text-emerald-300 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-2 text-white text-center">{benefit.title}</h3>
                 <p className="text-emerald-100 text-center">{benefit.description}</p>
-              </GlassCard>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Current Opportunities */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Current Opportunities</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {opportunities.map((opportunity, index) => (
-              <GlassCard key={index} className="p-6 rounded-xl" delay={index * 0.1}>
-                <span className="inline-block px-3 py-1 rounded-full text-sm font-medium bg-emerald-400/20 text-emerald-200 mb-4">
-                  {opportunity.category}
-                </span>
-                <h3 className="text-xl font-semibold mb-4 text-white">{opportunity.title}</h3>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-emerald-200">
-                    <Clock className="h-5 w-5 mr-2" />
-                    <span>{opportunity.commitment}</span>
-                  </div>
-                  <div className="flex items-center text-emerald-200">
-                    <MapPin className="h-5 w-5 mr-2" />
-                    <span>{opportunity.location}</span>
-                  </div>
-                </div>
-                <p className="text-emerald-100 mb-4">{opportunity.description}</p>
-                <button className="w-full bg-emerald-500/20 text-white py-2 rounded-lg hover:bg-emerald-500/30 transition duration-300 border border-emerald-400/30">
-                  Apply Now
-                </button>
               </GlassCard>
             ))}
           </div>
