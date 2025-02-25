@@ -1,180 +1,322 @@
-import { ArrowRight, Heart, Users, Leaf, Brain, Book, Globe } from 'lucide-react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import AnimatedSection from '../components/AnimatedSection';
-import StatCard from '../components/StatCard';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { Heart, Leaf, Users, Globe, ArrowRight } from 'lucide-react';
+import SEO from '../components/SEO';
+import PageContainer from '../components/PageContainer';
+import GlassmorphicSection from '../components/GlassmorphicSection';
+import GlassmorphicContainer from '../components/GlassmorphicContainer';
 
 const Home = () => {
-  const stats = [
-    { number: "50K+", label: "Lives Impacted" },
-    { number: "100+", label: "Active Projects" },
-    { number: "25+", label: "Countries Reached" },
-    { number: "10K+", label: "Volunteers" }
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start start", "end end"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.5, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1.2]);
+  const springY = useSpring(y, { stiffness: 100, damping: 30 });
+  const springScale = useSpring(scale, { stiffness: 100, damping: 30 });
+
+  // SEO metadata
+  const seoData = {
+    title: "Home",
+    description: "Shadownik Social Services - Creating positive social impact through sustainable initiatives and community development.",
+    keywords: "Shadownik, social services, NGO, community development, volunteering, social impact, sustainability",
+    url: "https://shadownik.online",
+    type: "website"
+  };
+
+  const features = [
+    {
+      icon: <Heart className="h-8 w-8 text-nature-400" />,
+      title: "Community Impact",
+      description: "Creating lasting positive change in communities through sustainable social initiatives.",
+      image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+      delay: 0.2
+    },
+    {
+      icon: <Leaf className="h-8 w-8 text-nature-400" />,
+      title: "Environmental Focus",
+      description: "Leading conservation efforts and promoting sustainable practices for a better future.",
+      image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+      delay: 0.4
+    },
+    {
+      icon: <Users className="h-8 w-8 text-nature-400" />,
+      title: "Volunteer Network",
+      description: "Building a strong network of dedicated volunteers to drive social change.",
+      image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+      delay: 0.6
+    },
+    {
+      icon: <Globe className="h-8 w-8 text-nature-400" />,
+      title: "Global Reach",
+      description: "Extending our impact across borders to help communities worldwide.",
+      image: "https://images.unsplash.com/photo-1569974498991-d37c6d760f5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+      delay: 0.8
+    }
   ];
 
   return (
-    <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative min-h-[800px] flex items-center justify-center text-white overflow-hidden">
+    <PageContainer theme="nature">
+      <SEO {...seoData} />
+
+      {/* Hero Section with Parallax */}
+      <div ref={targetRef} style={{ opacity }} className="relative min-h-screen overflow-hidden">
+        {/* Background Layers */}
         <motion.div 
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
           className="absolute inset-0 z-0"
           style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")',
+            scale: springScale,
+            backgroundImage: `url(https://images.unsplash.com/photo-1497250681960-ef046c08a56e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)`,
             backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            backgroundPosition: 'center',
+            opacity: 0.8
           }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-green-900/90 via-green-800/85 to-emerald-900/90"></div>
-        </motion.div>
+        />
+        <motion.div 
+          className="absolute inset-0 z-10"
+          style={{ 
+            y: springY,
+            backgroundImage: `url(https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.3,
+            mixBlendMode: 'overlay'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-nature-900/40 via-nature-900/30 to-nature-900/90 z-20" />
         
-        <div className="relative z-10 max-w-4xl mx-auto text-center px-4 py-20">
-          <AnimatedSection delay={0.2}>
+        {/* Content */}
+        <div className="relative z-30 min-h-screen flex items-center justify-center">
+          <div className="text-center max-w-4xl mx-auto px-4">
             <motion.h1 
-              className="text-6xl md:text-7xl font-bold mb-8 leading-tight"
+              className="text-7xl font-bold mb-6 text-white drop-shadow-glow"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              Creating Positive Change
+            </motion.h1>
+            <motion.p 
+              className="text-2xl text-white mb-12 drop-shadow-soft"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+            >
+              A division of Shadownik Corporation dedicated to sustainable social initiatives and community development.
+            </motion.p>
+            <motion.div 
+              className="flex flex-wrap gap-6 justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
             >
-              Give Time,{' '}
-              <span className="text-emerald-300">Create Change</span>
-            </motion.h1>
-            <p className="text-xl md:text-2xl mb-12 leading-relaxed text-emerald-50">
-              Join our mission to create lasting positive change through innovative social service projects. 
-              Whether it's environmental conservation, education, or community development - your time and 
-              skills can make a real difference.
-            </p>
+              <Link
+                to="/projects"
+                className="bg-nature-500/90 hover:bg-nature-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:drop-shadow-glow backdrop-blur-sm"
+              >
+                Explore Our Projects
+              </Link>
             <Link 
               to="/volunteer"
-              className="inline-flex items-center bg-emerald-500 text-white px-10 py-4 rounded-full text-lg font-semibold hover:bg-emerald-400 transition-all duration-300 transform hover:scale-105 hover:translate-y-[-2px] shadow-lg hover:shadow-emerald-500/25 group"
+                className="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-full font-semibold hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
             >
-              Join Us Today
-              <ArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+                Start Volunteering
             </Link>
-          </AnimatedSection>
-
-          {/* Stats Section */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <StatCard
-                key={index}
-                number={stat.number}
-                label={stat.label}
-                delay={0.4 + index * 0.1}
-              />
-            ))}
+            </motion.div>
           </div>
         </div>
-      </section>
 
-      {/* Impact Areas */}
-      <section className="py-24 bg-gradient-to-b from-emerald-50 to-green-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <AnimatedSection className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-green-900 leading-tight">
-              Our Impact Areas
-            </h2>
-            <p className="text-xl text-green-700 max-w-2xl mx-auto">
-              Discover how we're making a difference across multiple areas of social impact
-            </p>
-          </AnimatedSection>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Leaf className="h-12 w-12 text-emerald-500" />,
-                title: "Environmental Conservation",
-                description: "Protecting our planet through sustainable initiatives and green projects.",
-                bgImage: "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-              },
-              {
-                icon: <Book className="h-12 w-12 text-teal-500" />,
-                title: "Education Support",
-                description: "Empowering communities through knowledge and learning resources.",
-                bgImage: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-              },
-              {
-                icon: <Users className="h-12 w-12 text-green-500" />,
-                title: "Community Development",
-                description: "Building stronger communities through collaborative efforts.",
-                bgImage: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-              },
-              {
-                icon: <Heart className="h-12 w-12 text-emerald-500" />,
-                title: "Healthcare Access",
-                description: "Improving access to essential healthcare services.",
-                bgImage: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-              },
-              {
-                icon: <Brain className="h-12 w-12 text-teal-500" />,
-                title: "Mental Health",
-                description: "Supporting mental wellness through awareness and resources.",
-                bgImage: "https://images.unsplash.com/photo-1527137342181-19aab11a8ee8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-              },
-              {
-                icon: <Globe className="h-12 w-12 text-green-500" />,
-                title: "Global Outreach",
-                description: "Extending our impact across borders through international programs.",
-                bgImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-              }
-            ].map((area, index) => (
-              <AnimatedSection
-                key={index}
-                className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
-                delay={0.2 + index * 0.1}
-              >
-                <div
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${area.bgImage})` }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/95 to-white/90 group-hover:from-white/90 group-hover:to-white/85 transition-colors duration-300"></div>
-                </div>
-                <div className="relative p-8">
-                  <div className="mb-6 transform transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                    {area.icon}
-                  </div>
-                  <h3 className="text-2xl font-semibold mb-4 text-green-800">{area.title}</h3>
-                  <p className="text-gray-700 leading-relaxed">{area.description}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="relative py-24 text-white overflow-hidden">
+        {/* Scroll Indicator */}
         <motion.div 
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-green-900/90 to-emerald-800/90"></div>
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
+            <motion.div 
+              className="w-1.5 h-1.5 bg-white rounded-full"
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
         </motion.div>
-        <AnimatedSection className="relative z-10 max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to Make a Difference?</h2>
-          <p className="text-xl mb-12 text-emerald-50 max-w-2xl mx-auto">
-            Join our community of volunteers and help create positive change in the world.
-            Every small action counts towards making our world a better place.
+      </div>
+
+      {/* Features Section with Parallax Cards */}
+      <GlassmorphicSection
+        title="Our Impact Areas"
+        subtitle="Discover how we're making a difference in communities through various initiatives"
+      >
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature, index) => (
+            <motion.div
+                key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: feature.delay }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+            >
+              <GlassmorphicContainer
+                className="group h-full transform transition-all duration-500 hover:scale-[1.02]"
+              >
+                <div className="absolute inset-0 -z-10 overflow-hidden rounded-xl">
+                  <motion.img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.8 }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-nature-900/80 to-nature-900/90 group-hover:opacity-75 transition-opacity duration-500" />
+                </div>
+                <div className="relative z-10 p-6 text-center">
+                  <motion.div 
+                    className="inline-flex p-3 rounded-full bg-white/10 backdrop-blur-md mb-4 group-hover:bg-white/20 transition-colors duration-300"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    {feature.icon}
+                  </motion.div>
+                  <h3 className="text-xl font-semibold text-white mb-2 drop-shadow-glow">
+                    {feature.title}
+                  </h3>
+                  <p className="text-nature-50">
+                    {feature.description}
+                  </p>
+                </div>
+              </GlassmorphicContainer>
+            </motion.div>
+            ))}
+        </div>
+      </GlassmorphicSection>
+
+      {/* Active Project Section with Parallax */}
+      <GlassmorphicSection>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+        >
+          <GlassmorphicContainer className="p-8 md:p-12 overflow-hidden">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <motion.h2 
+                  className="text-3xl font-bold text-white mb-4 drop-shadow-glow"
+                  initial={{ x: -50 }}
+                  whileInView={{ x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  Nature Conservation Initiative
+                </motion.h2>
+                <motion.p 
+                  className="text-nature-50 mb-6"
+                  initial={{ x: -50 }}
+                  whileInView={{ x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  Join our active project focused on protecting biodiversity and restoring natural habitats. Make a direct impact on environmental conservation.
+                </motion.p>
+                <motion.div
+                  initial={{ x: -50 }}
+                  whileInView={{ x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    to="/projects"
+                    className="inline-flex items-center px-6 py-3 bg-nature-500 hover:bg-nature-600 text-white rounded-lg font-semibold transition-all duration-300 group"
+                  >
+                    Learn More
+                    <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </motion.div>
+              </div>
+              <motion.div 
+                className="relative h-64 md:h-full min-h-[300px] rounded-xl overflow-hidden"
+                initial={{ scale: 0.8 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <motion.img
+                  src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                  alt="Nature Conservation"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.8 }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-nature-900/80 to-transparent" />
+              </motion.div>
+            </div>
+          </GlassmorphicContainer>
+        </motion.div>
+      </GlassmorphicSection>
+
+      {/* Call to Action with Floating Elements */}
+      <GlassmorphicSection>
+        <GlassmorphicContainer className="text-center p-12 relative overflow-hidden" hover={false}>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="relative z-10"
+          >
+            <h2 className="text-4xl font-bold mb-6 text-white drop-shadow-glow">
+              Ready to Make a Difference?
+            </h2>
+            <p className="text-xl mb-8 text-nature-50 drop-shadow-soft">
+              Join our community of changemakers and help us create lasting positive change in the world.
           </p>
           <Link
-            to="/volunteer"
-            className="inline-flex items-center bg-white text-green-800 px-10 py-4 rounded-full text-lg font-semibold hover:bg-emerald-50 transition-all duration-300 transform hover:scale-105 hover:translate-y-[-2px] shadow-lg hover:shadow-white/25 group"
+              to="/contact"
+              className="inline-flex items-center bg-white/90 backdrop-blur-sm text-nature-900 px-8 py-4 rounded-full font-semibold hover:bg-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:drop-shadow-glow group"
+            >
+              Get in Touch
+              <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+
+          {/* Floating Elements */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            viewport={{ once: true }}
           >
-            Start Volunteering
-            <ArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </AnimatedSection>
-      </section>
-    </div>
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 bg-white/20 rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  opacity: [0.2, 0.5, 0.2],
+                }}
+                transition={{
+                  duration: 3 + Math.random() * 2,
+                  repeat: Infinity,
+                  delay: Math.random() * 2,
+                }}
+              />
+            ))}
+          </motion.div>
+        </GlassmorphicContainer>
+      </GlassmorphicSection>
+    </PageContainer>
   );
 };
 

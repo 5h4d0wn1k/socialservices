@@ -6,10 +6,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' }
+    { icon: Facebook, href: 'https://facebook.com/shadownik', label: 'Facebook' },
+    { icon: Twitter, href: 'https://twitter.com/shadownik', label: 'Twitter' },
+    { icon: Instagram, href: 'https://instagram.com/shadownik', label: 'Instagram' },
+    { icon: Linkedin, href: 'https://linkedin.com/company/shadownik', label: 'LinkedIn' }
   ];
 
   return (
@@ -19,96 +19,92 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Section */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2 group">
-              <Heart className="h-6 w-6 text-emerald-400 group-hover:text-emerald-300 transition-colors duration-300" />
-              <span className="font-bold text-xl group-hover:text-emerald-300 transition-colors duration-300">
-                Shadownik
-              </span>
-            </div>
-            <p className="text-emerald-200">
-              Making a difference through compassion, dedication, and community service.
+          {/* About Section */}
+          <div className="col-span-1 md:col-span-2">
+            <Link to="/" className="flex items-center space-x-2 mb-4">
+              <Heart className="h-8 w-8 text-emerald-400" />
+              <span className="text-2xl font-bold">Shadownik</span>
+            </Link>
+            <p className="text-gray-300 mb-4">
+              A division of Shadownik Corporation dedicated to making a positive impact in communities through sustainable social initiatives and volunteer programs.
             </p>
-            <div className="flex space-x-4">
-              {socialLinks.map(({ icon: Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="text-emerald-400 hover:text-emerald-300 transition-colors duration-300"
-                >
-                  <Icon className="h-5 w-5" />
-                </a>
-              ))}
+            <div className="flex items-center space-x-2 text-gray-300">
+              <Mail className="h-5 w-5" />
+              <a href="mailto:info@shadownik.online" className="hover:text-emerald-400 transition-colors">
+                info@shadownik.online
+              </a>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4 text-emerald-300">Quick Links</h3>
-            <div className="space-y-2">
-              {[
-                { to: '/', label: 'Home' },
-                { to: '/projects', label: 'Projects' },
-                { to: '/about', label: 'About Us' },
-                { to: '/volunteer', label: 'Volunteer' }
-              ].map(({ to, label }) => (
-                <Link
-                  key={to}
-                  to={to}
-                  className="block text-emerald-200 hover:text-white transition-colors duration-300"
-                >
-                  {label}
+            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/about" className="text-gray-300 hover:text-emerald-400 transition-colors">
+                  About Us
                 </Link>
-              ))}
-            </div>
+              </li>
+              <li>
+                <Link to="/projects" className="text-gray-300 hover:text-emerald-400 transition-colors">
+                  Projects
+                </Link>
+              </li>
+              <li>
+                <Link to="/volunteer" className="text-gray-300 hover:text-emerald-400 transition-colors">
+                  Volunteer
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-300 hover:text-emerald-400 transition-colors">
+                  Contact
+                </Link>
+              </li>
+            </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Legal Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4 text-emerald-300">Contact Us</h3>
-            <div className="space-y-3 text-emerald-200">
-              <a
-                href="mailto:contact@shadownik.org"
-                className="flex items-center space-x-2 hover:text-white transition-colors duration-300"
-              >
-                <Mail className="h-5 w-5 flex-shrink-0" />
-                <span>info@shadownik.online</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4 text-emerald-300">Stay Updated</h3>
-            <form className="space-y-2" onSubmit={(e) => e.preventDefault()}>
-              <div className="relative">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="w-full px-4 py-2 rounded-lg bg-green-800 text-white placeholder-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 border border-emerald-700"
-                  aria-label="Email for newsletter"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-green-900"
-              >
-                Subscribe
-              </button>
-            </form>
+            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/privacy-policy" className="text-gray-300 hover:text-emerald-400 transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms-of-service" className="text-gray-300 hover:text-emerald-400 transition-colors">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link to="/cookie-policy" className="text-gray-300 hover:text-emerald-400 transition-colors">
+                  Cookie Policy
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="mt-12 pt-8 border-t border-green-800">
-          <div className="flex flex-col md:flex-row justify-between items-center text-emerald-300 text-sm">
-            <p>© {currentYear} Shadownik. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="/legal/PrivacyPolicy" className="hover:text-white transition-colors duration-300">Privacy Policy</a>
-              <a href="/legal/Terms" className="hover:text-white transition-colors duration-300">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors duration-300">Cookie Policy</a>
+        {/* Social Links and Copyright */}
+        <div className="mt-8 pt-8 border-t border-green-800">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-300 text-sm mb-4 md:mb-0">
+              © {currentYear} Shadownik Corporation. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              {socialLinks.map(({ icon: Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-emerald-400 transition-colors"
+                  aria-label={label}
+                >
+                  <Icon className="h-6 w-6" />
+                </a>
+              ))}
             </div>
           </div>
         </div>
