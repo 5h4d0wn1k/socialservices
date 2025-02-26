@@ -5,15 +5,48 @@ import SEO from '../components/SEO';
 import PageContainer from '../components/PageContainer';
 import GlassmorphicSection from '../components/GlassmorphicSection';
 import GlassmorphicContainer from '../components/GlassmorphicContainer';
+import { Helmet } from 'react-helmet-async';
 
 const About = () => {
+  const team = [
+    {
+      name: "Nikhil Nagpure",
+      role: "Founder & CEO",
+      image: "/images/nikhil.png",
+      linkedin: "https://linkedin.com/in/nikhilnagpure24",
+      bio: "Nikhil Nagpure is the Founder and CEO of Shadownik Corporation, a visionary leader driving social impact initiatives and technological innovation. With expertise in software development and social entrepreneurship, Nikhil leads the company's mission to create sustainable community development solutions.",
+      location: "Mumbai, India",
+      education: "Computer Engineering",
+      expertise: ["Social Entrepreneurship", "Technology Innovation", "Community Development", "Software Engineering"]
+    },
+    {
+      name: "Fadiya Fathima Muhammad",
+      role: "Product Designer & Operations Manager",
+      image: "/images/fadiya.jpg",
+      linkedin: "https://linkedin.com/in/fadiyafathimamuhammad",
+      bio: "Fadiya Fathima Muhammad is the Product Designer and Operations Manager at Shadownik Social Services, bringing creative excellence to user experience design and operational efficiency. Her innovative approach combines design thinking with social impact.",
+      location: "Mumbai, India",
+      expertise: ["Product Design", "UX/UI Design", "Operations Management", "Social Impact Design"]
+    }
+  ];
+
   // SEO metadata
   const seoData = {
-    title: "About Us",
-    description: "Learn about Shadownik Social Services, our mission, values, and the team behind our social impact initiatives.",
-    keywords: "about Shadownik, social services, NGO mission, team, values, social impact, Shadownik Corporation",
+    title: "About Us - Meet Our Team | Nikhil Nagpure & Fadiya Fathima Muhammad",
+    description: "Meet Nikhil Nagpure, Founder & CEO of Shadownik Corporation, and Fadiya Fathima Muhammad, Product Designer. Leaders in social impact, technology innovation, and community development. Discover our mission and values at Shadownik Social Services.",
+    keywords: "Nikhil Nagpure, Nikhil Nagpure Shadownik, Nikhil Nagpure CEO, Nikhil Nagpure LinkedIn, Nikhil Nagpure founder, " +
+      "Fadiya Fathima Muhammad, Fadiya Fathima Muhammad designer, Fadiya Fathima Muhammad Shadownik, " +
+      "Shadownik CEO, Shadownik founder, Shadownik leadership, Shadownik team, " +
+      "social services, NGO mission, social impact, community development, " +
+      "tech for good, social innovation, sustainable development, " +
+      "Shadownik Corporation, Shadownik Social Services, " +
+      "Indian entrepreneurs, tech entrepreneurs, social entrepreneurs, " +
+      "product design, UX design, operations management, " +
+      "community initiatives, social welfare, nonprofit organization, " +
+      "Mumbai tech companies, Indian startups, social impact startups",
     url: "https://shadownik.online/about",
-    type: "website"
+    type: "website",
+    image: team[0].image
   };
 
   const values = [
@@ -39,26 +72,84 @@ const About = () => {
     }
   ];
 
-  const team = [
-    {
-      name: "Nikhil Nagpure",
-      role: "Founder & CEO",
-      image: "/images/nikhil.png",
-      linkedin: "https://linkedin.com/in/nikhilnagpure24"
+  // Enhanced Schema.org structured data
+  const teamStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Shadownik Social Services",
+    "url": "https://shadownik.online",
+    "logo": "https://shadownik.online/logo.png",
+    "sameAs": [
+      "https://linkedin.com/company/shadownik",
+      "https://twitter.com/shadownik",
+      "https://facebook.com/shadownik",
+      "https://instagram.com/shadownik"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Mumbai",
+      "addressRegion": "Maharashtra",
+      "addressCountry": "IN"
     },
-    {
-      name: "Fadiya Fathima Muhammad",
-      role: "Product Designer & Operations Manager",
-      image: "/images/fadiya.jpg",
-      linkedin: "https://linkedin.com/in/fadiyafathimamuhammad"
-    }
-  ];
+    "employee": team.map(member => ({
+      "@type": "Person",
+      "name": member.name,
+      "jobTitle": member.role,
+      "image": member.image,
+      "sameAs": [member.linkedin],
+      "description": member.bio,
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Shadownik Corporation",
+        "url": "https://shadownik.online"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": member.location
+      },
+      "knowsAbout": member.expertise
+    }))
+  };
+
+  // Additional structured data for the CEO
+  const ceoStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Nikhil Nagpure",
+    "jobTitle": "Founder & CEO",
+    "image": team[0].image,
+    "sameAs": [team[0].linkedin],
+    "description": team[0].bio,
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": team[0].education
+    },
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Shadownik Corporation",
+      "url": "https://shadownik.online"
+    },
+    "knowsAbout": team[0].expertise
+  };
 
   return (
     <PageContainer
       backgroundImage="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
     >
       <SEO {...seoData} />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(teamStructuredData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(ceoStructuredData)}
+        </script>
+        <meta name="author" content="Nikhil Nagpure" />
+        <meta name="og:title" content={`${team[0].name} - ${team[0].role} at Shadownik Corporation`} />
+        <meta name="og:description" content={team[0].bio} />
+        <meta name="twitter:title" content={`${team[0].name} - ${team[0].role} at Shadownik Corporation`} />
+        <meta name="twitter:description" content={team[0].bio} />
+      </Helmet>
 
       {/* Hero Section */}
       <GlassmorphicSection fullWidth className="min-h-[60vh] flex items-center justify-center">
