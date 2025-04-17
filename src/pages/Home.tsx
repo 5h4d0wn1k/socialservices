@@ -1,4 +1,3 @@
-import React from 'react';
 import { ArrowRight, Users, Calendar, Heart, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
