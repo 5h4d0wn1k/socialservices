@@ -1,322 +1,154 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import { ArrowRight, Users, Calendar, Heart, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Heart, Leaf, Users, Globe, ArrowRight } from 'lucide-react';
-import SEO from '../components/SEO';
-import PageContainer from '../components/PageContainer';
-import GlassmorphicSection from '../components/GlassmorphicSection';
-import GlassmorphicContainer from '../components/GlassmorphicContainer';
 
 const Home = () => {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end end"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.5, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.1, 1.2]);
-  const springY = useSpring(y, { stiffness: 100, damping: 30 });
-  const springScale = useSpring(scale, { stiffness: 100, damping: 30 });
-
-  // SEO metadata
-  const seoData = {
-    title: "Home",
-    description: "Shadownik Social Services - Creating positive social impact through sustainable initiatives and community development.",
-    keywords: "Shadownik, social services, NGO, community development, volunteering, social impact, sustainability",
-    url: "https://shadownik.online",
-    type: "website"
-  };
-
-  const features = [
-    {
-      icon: <Heart className="h-8 w-8 text-nature-400" />,
-      title: "Community Impact",
-      description: "Creating lasting positive change in communities through sustainable social initiatives.",
-      image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-      delay: 0.2
-    },
-    {
-      icon: <Leaf className="h-8 w-8 text-nature-400" />,
-      title: "Environmental Focus",
-      description: "Leading conservation efforts and promoting sustainable practices for a better future.",
-      image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-      delay: 0.4
-    },
-    {
-      icon: <Users className="h-8 w-8 text-nature-400" />,
-      title: "Volunteer Network",
-      description: "Building a strong network of dedicated volunteers to drive social change.",
-      image: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-      delay: 0.6
-    },
-    {
-      icon: <Globe className="h-8 w-8 text-nature-400" />,
-      title: "Global Reach",
-      description: "Extending our impact across borders to help communities worldwide.",
-      image: "https://images.unsplash.com/photo-1569974498991-d37c6d760f5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-      delay: 0.8
-    }
-  ];
-
   return (
-    <PageContainer theme="nature">
-      <SEO {...seoData} />
-
-      {/* Hero Section with Parallax */}
-      <div ref={targetRef} style={{ opacity }} className="relative min-h-screen overflow-hidden">
-        {/* Background Layers */}
-        <motion.div 
+    <div>
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center">
+        <div
           className="absolute inset-0 z-0"
           style={{
-            scale: springScale,
-            backgroundImage: `url(https://images.unsplash.com/photo-1497250681960-ef046c08a56e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)`,
+            backgroundImage: "url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')",
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            opacity: 0.8
           }}
-        />
-        <motion.div 
-          className="absolute inset-0 z-10"
-          style={{ 
-            y: springY,
-            backgroundImage: `url(https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80)`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: 0.3,
-            mixBlendMode: 'overlay'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-nature-900/40 via-nature-900/30 to-nature-900/90 z-20" />
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/40" />
+        </div>
         
-        {/* Content */}
-        <div className="relative z-30 min-h-screen flex items-center justify-center">
-          <div className="text-center max-w-4xl mx-auto px-4">
-            <motion.h1 
-              className="text-7xl font-bold mb-6 text-white drop-shadow-glow"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            >
-              Creating Positive Change
-            </motion.h1>
-            <motion.p 
-              className="text-2xl text-white mb-12 drop-shadow-soft"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-            >
-              A division of Shadownik Corporation dedicated to sustainable social initiatives and community development.
-            </motion.p>
-            <motion.div 
-              className="flex flex-wrap gap-6 justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
-            >
-              <Link
-                to="/projects"
-                className="bg-nature-500/90 hover:bg-nature-500 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:drop-shadow-glow backdrop-blur-sm"
-              >
-                Explore Our Projects
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+          <div className="max-w-3xl">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              Your Time is the Most Precious Gift
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-200 mb-12 leading-relaxed">
+              Join Shadownik's mission to create lasting positive change. Together, we can build stronger communities and brighter futures.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link to="/register" className="btn-primary">
+                Become a Volunteer
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-            <Link 
-              to="/volunteer"
-                className="bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-full font-semibold hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-            >
-                Start Volunteering
-            </Link>
-            </motion.div>
+              <Link to="/projects" className="btn-secondary">
+                Explore Projects
+              </Link>
+            </div>
           </div>
         </div>
+        
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronDown className="h-8 w-8 text-white" />
+        </div>
+      </section>
 
-        {/* Scroll Indicator */}
-        <motion.div 
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
-            <motion.div 
-              className="w-1.5 h-1.5 bg-white rounded-full"
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            />
+      {/* Impact Stats */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="section-title">Our Impact</h2>
+            <p className="section-subtitle">Together we're making a difference in communities around the world</p>
           </div>
-        </motion.div>
-      </div>
-
-      {/* Features Section with Parallax Cards */}
-      <GlassmorphicSection
-        title="Our Impact Areas"
-        subtitle="Discover how we're making a difference in communities through various initiatives"
-      >
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature, index) => (
-            <motion.div
-                key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: feature.delay }}
-              viewport={{ once: true }}
-              whileHover={{ y: -10 }}
-            >
-              <GlassmorphicContainer
-                className="group h-full transform transition-all duration-500 hover:scale-[1.02]"
-              >
-                <div className="absolute inset-0 -z-10 overflow-hidden rounded-xl">
-                  <motion.img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.8 }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-nature-900/80 to-nature-900/90 group-hover:opacity-75 transition-opacity duration-500" />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { icon: Users, count: "1000+", label: "Active Volunteers", color: "bg-blue-500" },
+              { icon: Calendar, count: "50+", label: "Projects Completed", color: "bg-green-500" },
+              { icon: Heart, count: "10K+", label: "Lives Impacted", color: "bg-red-500" }
+            ].map((stat, index) => (
+              <div key={index} className="card p-8 text-center group hover:-translate-y-2">
+                <div className={`inline-flex p-4 rounded-full ${stat.color} bg-opacity-10 mb-6 group-hover:bg-opacity-20 transition-all duration-200`}>
+                  <stat.icon className={`h-8 w-8 ${stat.color.replace('bg-', 'text-')}`} />
                 </div>
-                <div className="relative z-10 p-6 text-center">
-                  <motion.div 
-                    className="inline-flex p-3 rounded-full bg-white/10 backdrop-blur-md mb-4 group-hover:bg-white/20 transition-colors duration-300"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.8 }}
-                  >
-                    {feature.icon}
-                  </motion.div>
-                  <h3 className="text-xl font-semibold text-white mb-2 drop-shadow-glow">
-                    {feature.title}
-                  </h3>
-                  <p className="text-nature-50">
-                    {feature.description}
-                  </p>
-                </div>
-              </GlassmorphicContainer>
-            </motion.div>
+                <h3 className="text-4xl font-bold text-gray-900 mb-2">{stat.count}</h3>
+                <p className="text-gray-600">{stat.label}</p>
+              </div>
             ))}
+          </div>
         </div>
-      </GlassmorphicSection>
+      </section>
 
-      {/* Active Project Section with Parallax */}
-      <GlassmorphicSection>
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-        >
-          <GlassmorphicContainer className="p-8 md:p-12 overflow-hidden">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <motion.h2 
-                  className="text-3xl font-bold text-white mb-4 drop-shadow-glow"
-                  initial={{ x: -50 }}
-                  whileInView={{ x: 0 }}
-                  transition={{ duration: 0.8 }}
-                  viewport={{ once: true }}
-                >
-                  Nature Conservation Initiative
-                </motion.h2>
-                <motion.p 
-                  className="text-nature-50 mb-6"
-                  initial={{ x: -50 }}
-                  whileInView={{ x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  viewport={{ once: true }}
-                >
-                  Join our active project focused on protecting biodiversity and restoring natural habitats. Make a direct impact on environmental conservation.
-                </motion.p>
-                <motion.div
-                  initial={{ x: -50 }}
-                  whileInView={{ x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  viewport={{ once: true }}
-                >
+      {/* Featured Projects */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="section-title">Featured Projects</h2>
+            <p className="section-subtitle">Discover how you can make a difference in your community</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Education Support",
+                image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                description: "Help students achieve their educational goals through mentoring and tutoring programs.",
+                category: "Education"
+              },
+              {
+                title: "Community Clean-up",
+                image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                description: "Join our efforts to keep communities clean and sustainable through regular clean-up drives.",
+                category: "Environment"
+              },
+              {
+                title: "Elder Care",
+                image: "https://images.unsplash.com/photo-1516307365426-d8ac0056203e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                description: "Provide companionship and support to elderly community members through various programs.",
+                category: "Healthcare"
+              }
+            ].map((project, index) => (
+              <div key={index} className="card group">
+                <div className="relative overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 text-sm font-semibold bg-white text-red-500 rounded-full shadow-md">
+                      {project.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                  <p className="text-gray-600 mb-4">{project.description}</p>
                   <Link
                     to="/projects"
-                    className="inline-flex items-center px-6 py-3 bg-nature-500 hover:bg-nature-600 text-white rounded-lg font-semibold transition-all duration-300 group"
+                    className="inline-flex items-center text-red-500 hover:text-red-600 font-semibold group-hover:translate-x-2 transition-transform duration-200"
                   >
                     Learn More
-                    <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
-                </motion.div>
+                </div>
               </div>
-              <motion.div 
-                className="relative h-64 md:h-full min-h-[300px] rounded-xl overflow-hidden"
-                initial={{ scale: 0.8 }}
-                whileInView={{ scale: 1 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-              >
-                <motion.img
-                  src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-                  alt="Nature Conservation"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.8 }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-nature-900/80 to-transparent" />
-              </motion.div>
-            </div>
-          </GlassmorphicContainer>
-        </motion.div>
-      </GlassmorphicSection>
-
-      {/* Call to Action with Floating Elements */}
-      <GlassmorphicSection>
-        <GlassmorphicContainer className="text-center p-12 relative overflow-hidden" hover={false}>
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="relative z-10"
-          >
-            <h2 className="text-4xl font-bold mb-6 text-white drop-shadow-glow">
-              Ready to Make a Difference?
-            </h2>
-            <p className="text-xl mb-8 text-nature-50 drop-shadow-soft">
-              Join our community of changemakers and help us create lasting positive change in the world.
-          </p>
-          <Link
-              to="/contact"
-              className="inline-flex items-center bg-white/90 backdrop-blur-sm text-nature-900 px-8 py-4 rounded-full font-semibold hover:bg-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:drop-shadow-glow group"
-            >
-              Get in Touch
-              <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-
-          {/* Floating Elements */}
-          <motion.div
-            className="absolute inset-0 pointer-events-none"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            viewport={{ once: true }}
-          >
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-2 h-2 bg-white/20 rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  y: [0, -20, 0],
-                  opacity: [0.2, 0.5, 0.2],
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 2,
-                }}
-              />
             ))}
-          </motion.div>
-        </GlassmorphicContainer>
-      </GlassmorphicSection>
-    </PageContainer>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/projects" className="btn-primary">
+              View All Projects
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-24 bg-gradient-to-r from-red-500 to-red-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Make a Difference?</h2>
+          <p className="text-xl text-red-100 mb-12 max-w-2xl mx-auto">
+            Join our community of volunteers and help us create positive change in the world.
+          </p>
+          <Link to="/register" className="inline-flex items-center px-8 py-4 bg-white text-red-500 font-bold rounded-lg hover:bg-red-50 transform hover:scale-105 transition-all duration-200 shadow-lg">
+            Start Volunteering Today
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Link>
+        </div>
+      </section>
+    </div>
   );
 };
 
