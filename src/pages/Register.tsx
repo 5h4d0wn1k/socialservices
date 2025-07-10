@@ -1,350 +1,255 @@
-import React, { useState } from 'react';
-import { Send, Loader2, AlertCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import PageLayout from '../components/PageLayout';
-import { AuthService } from '../lib/auth-service';
-import { useAuthStore } from '../store/authStore';
+import { ArrowRight, Leaf, Users, Globe, Award, CheckCircle, Gift, Smile, HelpCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
-type AvailabilityType = 'Weekdays' | 'Weekends' | 'Mornings' | 'Afternoons' | 'Evenings';
-type InterestType = 'Education' | 'Environment' | 'Healthcare' | 'Food Security';
+const volunteers = [
+  {
+    name: 'Aarav Sharma',
+    image: 'https://randomuser.me/api/portraits/men/32.jpg',
+    quote: 'I found my purpose and lifelong friends with Shadownik.'
+  },
+  {
+    name: 'Priya Patel',
+    image: 'https://randomuser.me/api/portraits/women/44.jpg',
+    quote: 'Small actions, big impact. Shadownik made it possible.'
+  },
+  {
+    name: 'Rohan Gupta',
+    image: 'https://randomuser.me/api/portraits/men/65.jpg',
+    quote: 'The team spirit and kindness here is unmatched.'
+  },
+];
+
+const whatYouGet = [
+  { icon: Gift, title: 'Swags & Rewards', desc: 'Earn exclusive swags, certificates, and sometimes even prizes for your dedication.' },
+  { icon: Smile, title: 'Skills & Growth', desc: 'Gain leadership, teamwork, and project management skills.' },
+  { icon: Users, title: 'Community', desc: 'Join a supportive family of changemakers and make lifelong friends.' },
+  { icon: CheckCircle, title: 'Recognition', desc: 'Get recognized for your impact at local and global levels.' },
+];
+
+const faqs = [
+  { q: 'Do I need experience to join?', a: 'No experience needed! All you need is passion and a willingness to help.' },
+  { q: 'Is there any cost to join?', a: 'No, volunteering is free. We only ask for your time and heart.' },
+  { q: 'Can I volunteer remotely?', a: 'Many projects offer remote or flexible options—just ask!' },
+  { q: 'How are teams formed?', a: 'We group volunteers by location and interest, with a leader for every 5 members.' },
+];
 
 const Register = () => {
-  const navigate = useNavigate();
-  const { createOrUpdateProfile } = useAuthStore();
-  
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phone: '',
-    interests: [] as InterestType[],
-    availability: [] as AvailabilityType[],
-    experience: '',
-    motivation: ''
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [step, setStep] = useState<'credentials' | 'profile'>('credentials');
-
-  const handleCredentialsSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    // Validate
-    if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters long');
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const { error, data } = await AuthService.signUpWithEmail(formData.email, formData.password);
-      
-      if (error) throw error;
-      
-      if (data.user?.identities?.length === 0) {
-        throw new Error('An account with this email already exists');
-      }
-      
-      toast.success('Account created successfully! Please continue with your profile details.');
-      setStep('profile');
-    } catch (err: any) {
-      setError(err.message);
-      toast.error(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleProfileSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    try {
-      const { user } = await AuthService.getSession().then(({ data }) => data);
-      
-      if (!user) {
-        throw new Error('You must be logged in to complete registration');
-      }
-
-      await createOrUpdateProfile({
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        interests: formData.interests,
-        availability: formData.availability,
-        experience: formData.experience
-      });
-
-      toast.success('Registration completed successfully!');
-      navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.message);
-      toast.error(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: checked
-        ? [...prev[name as keyof typeof prev] as string[], value]
-        : (prev[name as keyof typeof prev] as string[]).filter(item => item !== value)
-    }));
-  };
-
   return (
-    <PageLayout>
-      <div className="py-12 bg-gray-50">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <h1 className="text-3xl font-bold text-center mb-2">Volunteer Registration</h1>
-            <p className="text-center text-gray-600 mb-8">Join our community of volunteers and make a difference</p>
-            
-            {error && (
-              <div className="mb-6 p-3 rounded bg-red-50 text-red-600 flex items-start">
-                <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
-                <span>{error}</span>
-              </div>
-            )}
-
-            {step === 'credentials' ? (
-              <form onSubmit={handleCredentialsSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      required
-                      autoComplete="email"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      required
-                      minLength={8}
-                      autoComplete="new-password"
-                    />
-                    <p className="mt-1 text-xs text-gray-500">
-                      Must be at least 8 characters long
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Confirm Password
-                    </label>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      required
-                      minLength={8}
-                      autoComplete="new-password"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-center">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="inline-flex items-center px-6 py-3 bg-primary-500 text-white font-semibold rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
-                  >
-                    {loading ? (
-                      <>
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        Creating Account...
-                      </>
-                    ) : (
-                      <>
-                        Continue
-                        <Send className="ml-2 h-5 w-5" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <form onSubmit={handleProfileSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      First Name
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      required
-                      autoComplete="given-name"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      required
-                      autoComplete="family-name"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    required
-                    autoComplete="tel"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Areas of Interest
-                  </label>
-                  <div className="grid grid-cols-2 gap-4">
-                    {['Education', 'Environment', 'Healthcare', 'Food Security'].map((interest) => (
-                      <div key={interest} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          name="interests"
-                          value={interest}
-                          onChange={handleCheckboxChange}
-                          className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
-                        />
-                        <label className="ml-2 text-sm text-gray-700">{interest}</label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Availability
-                  </label>
-                  <div className="grid grid-cols-2 gap-4">
-                    {['Weekdays', 'Weekends', 'Mornings', 'Afternoons', 'Evenings'].map((time) => (
-                      <div key={time} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          name="availability"
-                          value={time}
-                          onChange={handleCheckboxChange}
-                          className="h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 rounded"
-                        />
-                        <label className="ml-2 text-sm text-gray-700">{time}</label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Previous Volunteer Experience
-                  </label>
-                  <textarea
-                    name="experience"
-                    value={formData.experience}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    What motivates you to volunteer?
-                  </label>
-                  <textarea
-                    name="motivation"
-                    value={formData.motivation}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                </div>
-
-                <div className="flex justify-center">
-                  <button
-                    type="submit"
-                    className="inline-flex items-center px-6 py-3 bg-primary-500 text-white font-semibold rounded-md hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                        Completing Registration...
-                      </>
-                    ) : (
-                      <>
-                        Complete Registration
-                        <Send className="ml-2 h-5 w-5" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-            )}
+    <>
+      <Helmet>
+        <title>Volunteer Registration – Shadownik | Join ECO Warriors</title>
+        <meta name="description" content="Sign up to become an ECO Warrior with Shadownik. Volunteer for harmony, nature, and community projects across India. Your time changes lives!" />
+        <link rel="canonical" href="https://swnk.in/register" />
+        <meta property="og:title" content="Volunteer Registration – Shadownik | Join ECO Warriors" />
+        <meta property="og:description" content="Sign up to become an ECO Warrior with Shadownik. Volunteer for harmony, nature, and community projects across India. Your time changes lives!" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80" />
+        <meta property="og:url" content="https://swnk.in/register" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Volunteer Registration – Shadownik | Join ECO Warriors" />
+        <meta name="twitter:description" content="Sign up to become an ECO Warrior with Shadownik. Volunteer for harmony, nature, and community projects across India. Your time changes lives!" />
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80" />
+      </Helmet>
+      <div className="bg-gray-50 min-h-screen pb-16">
+        {/* Hero Section */}
+        <section className="relative min-h-[60vh] flex items-center justify-center">
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              backgroundImage: "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-green-900/80 to-green-400/60" />
           </div>
-        </div>
+          <div className="relative z-10 max-w-3xl mx-auto px-4 py-24 text-center">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+              Join the ECO Warriors Movement
+            </h1>
+            <p className="text-xl md:text-2xl text-green-100 mb-8 drop-shadow">
+              Shadownik is India’s non-profit for harmony, nature, and hope. We ask for your time, not your money. Become part of a global family, starting from your community and reaching the world.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 mb-4">
+              <Link to="/" className="btn-secondary inline-flex items-center">
+                <ArrowRight className="mr-2 h-5 w-5" /> Back to Home
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* About Shadownik */}
+        <section className="py-16 bg-white">
+          <div className="max-w-5xl mx-auto px-4 text-center">
+            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=800&q=80" alt="Volunteers in India" className="mx-auto rounded-xl shadow-lg mb-6 w-full max-w-xl object-cover h-64" />
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-green-700">About Shadownik</h2>
+            <p className="text-lg md:text-xl text-gray-700 mb-6">
+              Shadownik is a people-powered movement, born in India, with a vision to unite communities for a cleaner, kinder, and more sustainable world. We empower volunteers to lead projects like cleaning, nature conservation, helping those in need, and more. We believe in harmony, peace, and the power of giving time. Sometimes, we even reward your efforts with swags, competitions, or by exchanging waste (like plastic or iron) for rewards – because every little action counts.
+            </p>
+          </div>
+        </section>
+
+        {/* How It Works */}
+        <section className="py-16 bg-green-50">
+          <div className="max-w-6xl mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-green-800">How It Works</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="card p-8 text-center bg-white shadow-md rounded-xl">
+                <Users className="mx-auto h-10 w-10 text-green-500 mb-4" />
+                <h3 className="text-xl font-semibold mb-2">Teams of 5 + 1 Leader</h3>
+                <p className="text-gray-600">Everywhere, we form small, close-knit teams of 5 volunteers and one leader, ensuring everyone’s voice is heard and every action matters.</p>
+              </div>
+              <div className="card p-8 text-center bg-white shadow-md rounded-xl">
+                <Globe className="mx-auto h-10 w-10 text-blue-500 mb-4" />
+                <h3 className="text-xl font-semibold mb-2">From Local to Global</h3>
+                <p className="text-gray-600">Teams grow into areas, then cities, then states, then nations, and finally a global family – all led by passionate volunteers at every level.</p>
+              </div>
+              <div className="card p-8 text-center bg-white shadow-md rounded-xl">
+                <Award className="mx-auto h-10 w-10 text-yellow-500 mb-4" />
+                <h3 className="text-xl font-semibold mb-2">Recognition & Rewards</h3>
+                <p className="text-gray-600">We celebrate every contribution – with swags, competitions, and sometimes even rewards for waste management. Your time is valued here.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Emotional Appeal / Testimonial */}
+        <section className="py-16 bg-gradient-to-r from-green-100 to-blue-100">
+          <div className="max-w-3xl mx-auto px-4 text-center">
+            <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=600&q=80" alt="Happy volunteer" className="mx-auto rounded-full shadow-lg mb-6 w-32 h-32 object-cover" />
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">Why We Care</h2>
+            <blockquote className="italic text-lg md:text-xl text-gray-700 mb-4">“Volunteering with Shadownik has given me a sense of purpose and belonging. It’s not just about helping others – it’s about building a kinder, more connected world.”</blockquote>
+            <div className="text-gray-600">– A Shadownik Volunteer</div>
+          </div>
+        </section>
+
+        {/* Step-by-Step Join Guide */}
+        <section className="py-12 bg-white animate-fade-in-up">
+          <div className="max-w-4xl mx-auto px-4">
+            <h2 className="text-2xl font-bold text-center text-green-800 mb-8">How to Join</h2>
+            <ol className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-0 md:space-x-8">
+              <li className="flex flex-col items-center">
+                <span className="bg-green-600 text-white rounded-full h-12 w-12 flex items-center justify-center text-2xl font-bold mb-2">1</span>
+                <span className="font-semibold mb-1">Fill the Form</span>
+                <span className="text-gray-500 text-sm">Tell us about yourself</span>
+              </li>
+              <li className="flex flex-col items-center">
+                <span className="bg-green-600 text-white rounded-full h-12 w-12 flex items-center justify-center text-2xl font-bold mb-2">2</span>
+                <span className="font-semibold mb-1">Get Matched</span>
+                <span className="text-gray-500 text-sm">We’ll connect you to a team</span>
+              </li>
+              <li className="flex flex-col items-center">
+                <span className="bg-green-600 text-white rounded-full h-12 w-12 flex items-center justify-center text-2xl font-bold mb-2">3</span>
+                <span className="font-semibold mb-1">Start Volunteering</span>
+                <span className="text-gray-500 text-sm">Make an impact together</span>
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        {/* Meet Our Volunteers */}
+        <section className="py-16 bg-green-50 animate-fade-in-up">
+          <div className="max-w-5xl mx-auto px-4">
+            <h2 className="text-2xl font-bold text-center text-green-800 mb-8">Meet Our Volunteers</h2>
+            <div className="flex flex-wrap justify-center gap-8">
+              {volunteers.map((v, i) => (
+                <div key={i} className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center w-64 group hover:-translate-y-2 transition-all duration-300">
+                  <img src={v.image} alt={v.name} className="w-20 h-20 rounded-full object-cover mb-4 shadow" />
+                  <blockquote className="italic text-lg text-gray-700 mb-2">“{v.quote}”</blockquote>
+                  <span className="font-semibold text-green-700">{v.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* What You Get */}
+        <section className="py-16 bg-white animate-fade-in-up">
+          <div className="max-w-5xl mx-auto px-4">
+            <h2 className="text-2xl font-bold text-center text-green-800 mb-8">What You Get</h2>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {whatYouGet.map((item, i) => (
+                <div key={i} className="card p-8 text-center bg-green-50 shadow-md rounded-xl group hover:-translate-y-2 transition-all duration-300">
+                  <item.icon className="mx-auto h-10 w-10 text-green-600 mb-4 group-hover:scale-110 transition-transform duration-200" />
+                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                  <p className="text-gray-600">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Progress Encouragement Bar */}
+        <section className="py-4 bg-green-100 animate-fade-in-up">
+          <div className="max-w-3xl mx-auto px-4">
+            <div className="w-full bg-green-200 rounded-full h-4 overflow-hidden">
+              <div className="bg-green-600 h-4 rounded-full animate-progress-bar" style={{ width: '33%' }} />
+            </div>
+            <div className="text-center text-green-800 font-semibold mt-2">Step 1 of 3: Fill the form to get started!</div>
+          </div>
+        </section>
+
+        {/* FAQ Accordion */}
+        <section className="py-16 bg-green-50 animate-fade-in-up">
+          <div className="max-w-3xl mx-auto px-4">
+            <h2 className="text-2xl font-bold text-center text-green-800 mb-8">Frequently Asked Questions</h2>
+            <div className="space-y-4">
+              {faqs.map((faq, i) => (
+                <details key={i} className="bg-white rounded-lg shadow p-4 group">
+                  <summary className="font-semibold text-green-700 cursor-pointer flex items-center gap-2 group-open:text-green-900">
+                    <HelpCircle className="h-5 w-5" /> {faq.q}
+                  </summary>
+                  <div className="mt-2 text-gray-700">{faq.a}</div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Google Form Embed */}
+        <section className="py-8">
+          <div className="max-w-3xl mx-auto px-4 bg-white rounded-xl shadow-lg p-6">
+            <h3 className="text-2xl font-semibold text-center mb-4 text-green-700">Sign Up Now</h3>
+            <p className="text-center text-gray-600 mb-6">
+              Fill out the form below to join the ECO Warriors. Your journey to making a real impact starts here!
+            </p>
+            <div className="w-full flex justify-center">
+              <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSfxL_12wujnkoPKfgtYGCPi5-C0qYjGkanyO54xvohoOfhvOA/viewform?embedded=true"
+                width="100%"
+                height="1200"
+                frameBorder="0"
+                marginHeight={0}
+                marginWidth={0}
+                title="ECO Warrior Registration"
+                className="rounded-lg border-2 border-green-200 shadow-md"
+                style={{ minHeight: 1200 }}
+                allowFullScreen
+              >
+                Loading…
+              </iframe>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="py-16 text-center bg-green-700 text-white">
+          <div className="max-w-2xl mx-auto px-4">
+            <h4 className="text-2xl font-semibold mb-2">Ready to Change the World?</h4>
+            <p className="mb-4 text-lg">
+              Volunteering with Shadownik means joining a supportive community, gaining new skills, and making friends for life – all while helping the planet. We value your time, celebrate your efforts, and sometimes even reward you with swags, competitions, and more!
+            </p>
+            <Users className="mx-auto h-10 w-10 text-white mb-2" />
+            <div className="mt-4">
+              <Link to="/" className="btn-primary inline-flex items-center bg-white text-green-700 hover:bg-green-100">
+                <ArrowRight className="mr-2 h-5 w-5" /> Back to Home
+              </Link>
+            </div>
+          </div>
+        </section>
       </div>
-    </PageLayout>
+    </>
   );
 };
 

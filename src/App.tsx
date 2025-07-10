@@ -13,6 +13,10 @@ import { useEffect, useState } from 'react';
 import ResetPassword from './pages/ResetPassword';
 import AuthCallback from './pages/AuthCallback';
 import { AuthService } from './lib/auth-service';
+import Team from './pages/Team';
+import NotFound from './pages/NotFound';
+import CookieConsent from './components/CookieConsent';
+import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
   const { isLoading } = useAuthStore();
@@ -42,30 +46,91 @@ function App() {
     <Router>
       <div className="min-h-screen flex flex-col">
         <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/auth/callback" element={<AuthCallback />} />
-            
-            {/* Protected Routes */}
-            <Route 
-              path="/dashboard" 
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              } 
-            />
-            
-            {/* Catch-all route for 404 */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+        <main className="flex-grow" id="main-content">
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={
+                <motion.div
+                  key="home"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -24 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Home />
+                </motion.div>
+              } />
+              <Route path="/projects" element={
+                <motion.div
+                  key="projects"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -24 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Projects />
+                </motion.div>
+              } />
+              <Route path="/register" element={
+                <motion.div
+                  key="register"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -24 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Register />
+                </motion.div>
+              } />
+              <Route path="/contact" element={
+                <motion.div
+                  key="contact"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -24 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Contact />
+                </motion.div>
+              } />
+              <Route path="/team" element={
+                <motion.div
+                  key="team"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -24 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Team />
+                </motion.div>
+              } />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
+              {/* Protected Routes */}
+              <Route 
+                path="/dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route path="*" element={
+                <motion.div
+                  key="notfound"
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -24 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <NotFound />
+                </motion.div>
+              } />
+            </Routes>
+          </AnimatePresence>
         </main>
         <Footer />
+        <CookieConsent />
         <Toaster 
           position="top-right" 
           toastOptions={{
