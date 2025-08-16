@@ -1,7 +1,17 @@
-import { ArrowRight, Users, Heart, ChevronDown, Globe, Leaf, Award, Newspaper, HandHeart, Award as AwardIcon, Users as UsersIcon, Globe2 } from 'lucide-react';
+import { ArrowRight, Users, Heart, ChevronDown, Globe, Leaf, Award, Newspaper, Play, Star, MapPin, Calendar, Users as UsersIcon2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import {
+  heroBackgrounds,
+  floatingElements,
+  testimonials,
+  partners,
+  featuredMedia,
+  whyVolunteer,
+  latestNews
+} from '../data/homeData';
+import { featuredProjects } from '../data/projectsData';
 
 // Simple animated counter hook
 function useCountUp(end: number, duration = 2000) {
@@ -26,194 +36,177 @@ function useCountUp(end: number, duration = 2000) {
   return ref;
 }
 
-const testimonials = [
-  {
-    name: 'Aarav Sharma',
-    quote: 'Volunteering with Shadownik gave me purpose and lifelong friends. We are truly changing lives together.',
-    image: 'https://randomuser.me/api/portraits/men/32.jpg',
-  },
-  {
-    name: 'Priya Patel',
-    quote: 'I never thought my small actions could have such a big impact. Shadownik made it possible.',
-    image: 'https://randomuser.me/api/portraits/women/44.jpg',
-  },
-  {
-    name: 'Rohan Gupta',
-    quote: 'The team spirit and kindness here is unmatched. Join us and feel the difference!',
-    image: 'https://randomuser.me/api/portraits/men/65.jpg',
-  },
-];
-
-const partners = [
-  { name: 'UN SDG', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/UN_SDG_Logo.svg' },
-  { name: 'WWF', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WWF_logo.svg' },
-  { name: 'Rotary', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7f/Rotary_International_logo.svg' },
-];
-
-// Video carousel for hero section
-const heroVideos = [
-  {
-    src: 'https://www.w3schools.com/howto/rain.mp4',
-    poster: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80',
-    alt: 'Rain in nature',
-  },
-  {
-    src: 'https://cdn.coverr.co/videos/coverr-forest-walk-1577975846657?token=eyJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJjb3ZlcnItdmlkZW8vY292ZXJyLWZvcmVzdC13YWxrLTE1Nzc5NzU4NDY2NTcubXA0In0.3Qw1QnQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQw',
-    poster: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=1500&q=80',
-    alt: 'Forest walk',
-  },
-  {
-    src: 'https://cdn.coverr.co/videos/coverr-indian-village-1577975846657?token=eyJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJjb3ZlcnItdmlkZW8vY292ZXJyLWluZGlhbi12aWxsYWdlLTE1Nzc5NzU4NDY2NTcubXA0In0.3Qw1QnQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQw',
-    poster: 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1500&q=80',
-    alt: 'Indian village',
-  },
-  {
-    src: 'https://cdn.coverr.co/videos/coverr-wildlife-elephants-1577975846657?token=eyJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJjb3ZlcnItdmlkZW8vY292ZXJyLXdpbGRsaWZlLWVsZXBoYW50cy0xNTc3OTc1ODQ2NjU3Lm1wNCJ9.3Qw1QnQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQw',
-    poster: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80',
-    alt: 'Wildlife elephants',
-  },
-  {
-    src: 'https://cdn.coverr.co/videos/coverr-community-people-1577975846657?token=eyJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJjb3ZlcnItdmlkZW8vY292ZXJyLWNvbW11bml0eS1wZW9wbGUtMTU3Nzk3NTg0NjY1Ny5tcDQifQ.3Qw1QnQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQwQw',
-    poster: 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=1500&q=80',
-    alt: 'Community people',
-  },
-];
-
-const HERO_VIDEO_DURATION = 9000; // ms per video
-
-const featuredMedia = [
-  { name: 'BBC', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/5f/BBC_News_2022_%28Alt%29.svg' },
-  { name: 'NDTV', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6d/NDTV_logo.svg' },
-  { name: 'Times of India', logo: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/The_Times_of_India_Logo.svg' },
-  { name: 'The Hindu', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/The_Hindu_Logo.svg' },
-  { name: 'Awwwards', logo: 'https://www.awwwards.com/assets/images/awwwards-logo.svg' },
-];
-
-const whyVolunteer = [
-  {
-    icon: HandHeart,
-    title: 'Real Impact',
-    desc: 'Every hour you give changes lives and communities—see your impact in action.'
-  },
-  {
-    icon: AwardIcon,
-    title: 'Recognition',
-    desc: 'Earn swags, certificates, and public recognition for your dedication.'
-  },
-  {
-    icon: UsersIcon,
-    title: 'Lifelong Friends',
-    desc: 'Join a family of passionate, like-minded changemakers from across India.'
-  },
-  {
-    icon: Globe2,
-    title: 'Global Movement',
-    desc: 'Be part of a movement that scales from local teams to global leadership.'
-  },
-];
-
-const latestNews = [
-  {
-    title: 'Shadownik wins Awwwards Site of the Day!',
-    date: '2024-05-01',
-    summary: 'Our new website is recognized for design and impact by Awwwards.',
-    link: '#',
-  },
-  {
-    title: 'ECO Warriors clean up 10,000kg of waste in Mumbai',
-    date: '2024-04-20',
-    summary: 'A record-breaking community effort led by our volunteers.',
-    link: '#',
-  },
-  {
-    title: 'Shadownik launches new education initiative',
-    date: '2024-03-15',
-    summary: 'Empowering underprivileged children with mentorship and resources.',
-    link: '#',
-  },
-];
-
 const Home = () => {
   const volunteersRef = useCountUp(1200);
   const projectsRef = useCountUp(70);
   const livesRef = useCountUp(15000);
 
-  // Video carousel state
-  const [videoIdx, setVideoIdx] = useState(0);
+  // Hero background carousel state
+  const [bgIdx, setBgIdx] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setVideoIdx((idx) => (idx + 1) % heroVideos.length);
-    }, HERO_VIDEO_DURATION);
+      setBgIdx((idx) => (idx + 1) % heroBackgrounds.length);
+    }, 8000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <>
       <Helmet>
-        <title>Shadownik – India’s Movement for Harmony, Nature & Volunteering</title>
-        <meta name="description" content="Join Shadownik, India’s award-winning NGO for volunteering, harmony, and environmental action. Give your time, not your money, and make a real impact!" />
+        <title>Shadownik – India's Movement for Harmony, Nature & Volunteering</title>
+        <meta name="description" content="Join Shadownik, India's award-winning NGO for volunteering, harmony, and environmental action. Give your time, not your money, and make a real impact!" />
         <link rel="canonical" href="https://swnk.in/" />
-        <meta property="og:title" content="Shadownik – India’s Movement for Harmony, Nature & Volunteering" />
-        <meta property="og:description" content="Join Shadownik, India’s award-winning NGO for volunteering, harmony, and environmental action. Give your time, not your money, and make a real impact!" />
-        <meta property="og:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80" />
+        <meta property="og:title" content="Shadownik – India's Movement for Harmony, Nature & Volunteering" />
+        <meta property="og:description" content="Join Shadownik, India's award-winning NGO for volunteering, harmony, and environmental action. Give your time, not your money, and make a real impact!" />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1500&q=80" />
         <meta property="og:url" content="https://swnk.in/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Shadownik – India’s Movement for Harmony, Nature & Volunteering" />
-        <meta name="twitter:description" content="Join Shadownik, India’s award-winning NGO for volunteering, harmony, and environmental action. Give your time, not your money, and make a real impact!" />
-        <meta name="twitter:image" content="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80" />
+        <meta name="twitter:title" content="Shadownik – India's Movement for Harmony, Nature & Volunteering" />
+        <meta name="twitter:description" content="Join Shadownik, India's award-winning NGO for volunteering, harmony, and environmental action. Give your time, not your money, and make a real impact!" />
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1500&q=80" />
       </Helmet>
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <video
-          key={heroVideos[videoIdx].src}
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster={heroVideos[videoIdx].poster}
-          aria-label={heroVideos[videoIdx].alt}
-          className="absolute inset-0 w-full h-full object-cover z-0 opacity-80 transition-opacity duration-1000"
-          style={{ transitionProperty: 'opacity' }}
-        >
-          <source src={heroVideos[videoIdx].src} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-green-900/40 z-0" />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 py-32 text-center animate-fade-in">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-            Your Time. Our World. Infinite Impact.
-          </h1>
-          <p className="text-xl md:text-2xl text-green-100 mb-10 drop-shadow">
-            Join Shadownik’s award-winning movement. We unite hearts and hands for a cleaner, kinder, more sustainable world. Give your time, not your money—and see the difference you make.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 mb-4">
-            <Link to="/register" className="btn-primary text-lg px-8 py-4 rounded-full shadow-xl animate-bounce focus:outline-none focus:ring-4 focus:ring-green-400 transition-transform duration-200 hover:scale-105">
-              Become a Volunteer
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-            <Link to="/projects" className="btn-secondary text-lg px-8 py-4 rounded-full focus:outline-none focus:ring-4 focus:ring-green-400 transition-transform duration-200 hover:scale-105">
-              Explore Projects
-            </Link>
-          </div>
-        </div>
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
-          <ChevronDown className="h-8 w-8 text-white" />
-        </div>
-      </section>
 
-      {/* Featured In Media Bar */}
-      <section className="py-6 bg-white animate-fade-in-up" aria-label="Featured in media">
-        <div className="max-w-5xl mx-auto flex flex-wrap justify-center items-center gap-8 opacity-80">
-          {featuredMedia.map((media, i) => (
+      {/* World-Class Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Dynamic Background Images */}
+        {heroBackgrounds.map((bg, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-all duration-2000 ease-in-out ${
+              index === bgIdx ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
             <img
+              src={bg.image}
+              alt={bg.alt}
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
+            <div className={`absolute inset-0 bg-gradient-to-r ${bg.overlay}`} />
+          </div>
+        ))}
+
+        {/* Animated Particles/Stars */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(50)].map((_, i) => (
+            <div
               key={i}
-              src={media.logo}
-              alt={media.name}
-              className="h-10 w-auto grayscale hover:grayscale-0 transition-all duration-300"
-              loading="lazy"
+              className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 3}s`
+              }}
             />
           ))}
         </div>
+        
+        {/* Main Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 py-32 text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20 animate-fade-in">
+            <Star className="h-5 w-5 text-yellow-400 mr-2" />
+            <span className="text-white font-medium">India's Movement for Harmony & Nature</span>
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-8 drop-shadow-2xl animate-fade-in-up">
+            <span className="bg-gradient-to-r from-white via-green-100 to-green-200 bg-clip-text text-transparent">
+              Your Time.
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-green-200 via-green-300 to-green-400 bg-clip-text text-transparent">
+              Our World.
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-green-400 via-green-500 to-green-600 bg-clip-text text-transparent">
+              Infinite Impact.
+            </span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-xl md:text-2xl lg:text-3xl text-green-100 mb-12 drop-shadow-lg max-w-4xl mx-auto animate-fade-in-up delay-300">
+            Join Shadownik's award-winning movement. We unite hearts and hands for a cleaner, kinder, more sustainable world. 
+            <span className="text-green-300 font-semibold"> Give your time, not your money</span>—and see the difference you make.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap justify-center gap-6 mb-12 animate-fade-in-up delay-500">
+            <Link 
+              to="/register" 
+              className="group relative px-8 py-4 bg-gradient-to-r from-green-600 to-green-700 text-white font-bold text-lg rounded-full shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
+            >
+              <span className="relative z-10 flex items-center">
+                Become a Volunteer
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </Link>
+            
+            <Link 
+              to="/projects" 
+              className="group relative px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold text-lg rounded-full border-2 border-white/30 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
+            >
+              <span className="relative z-10 flex items-center">
+                Explore Projects
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </span>
+            </Link>
+
+            <button 
+              onClick={() => setIsVideoPlaying(!isVideoPlaying)}
+              className="group relative px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-bold text-lg rounded-full border-2 border-white/30 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
+            >
+              <span className="relative z-10 flex items-center">
+                <Play className="mr-2 h-5 w-5" />
+                Watch Our Story
+              </span>
+            </button>
+          </div>
+
+          {/* Location & Time Info */}
+          <div className="flex flex-wrap justify-center items-center gap-8 mt-12 animate-fade-in-up delay-1000">
+            <div className="flex items-center text-white/80">
+              <MapPin className="h-5 w-5 mr-2" />
+              <span>Across India & Beyond</span>
+            </div>
+            <div className="flex items-center text-white/80">
+              <Calendar className="h-5 w-5 mr-2" />
+              <span>24/7 Impact</span>
+            </div>
+            <div className="flex items-center text-white/80">
+              <UsersIcon2 className="h-5 w-5 mr-2" />
+              <span>All Ages Welcome</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Video Modal */}
+        {isVideoPlaying && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="relative max-w-4xl w-full">
+              <button
+                onClick={() => setIsVideoPlaying(false)}
+                className="absolute -top-12 right-0 text-white text-2xl hover:text-gray-300 transition-colors"
+              >
+                ✕
+              </button>
+              <div className="relative pt-[56.25%] bg-black rounded-2xl overflow-hidden">
+                <iframe
+                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+                  title="Shadownik Story"
+                  className="absolute inset-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Why Volunteer With Us */}
@@ -261,7 +254,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="section-title text-4xl font-bold">Our Impact</h2>
-            <p className="section-subtitle text-lg">Together, we’re making a difference in communities across India and beyond</p>
+            <p className="section-subtitle text-lg">Together, we're making a difference in communities across India and beyond</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="card p-8 text-center group hover:-translate-y-2 transition-all duration-300">
@@ -327,7 +320,7 @@ const Home = () => {
             {testimonials.map((t, i) => (
               <div key={i} className="bg-white rounded-xl shadow-lg p-6 flex-1 animate-fade-in-up">
                 <img src={t.image} alt={t.name} className="mx-auto rounded-full shadow mb-4 w-24 h-24 object-cover" />
-                <blockquote className="italic text-lg text-gray-700 mb-2">“{t.quote}”</blockquote>
+                <blockquote className="italic text-lg text-gray-700 mb-2">"{t.quote}"</blockquote>
                 <div className="text-green-700 font-semibold">– {t.name}</div>
               </div>
             ))}
@@ -343,27 +336,8 @@ const Home = () => {
             <p className="section-subtitle text-lg">Discover how you can make a difference in your community</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Education Support',
-                image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80',
-                description: 'Help students achieve their educational goals through mentoring and tutoring programs.',
-                category: 'Education',
-              },
-              {
-                title: 'Community Clean-up',
-                image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
-                description: 'Join our efforts to keep communities clean and sustainable through regular clean-up drives.',
-                category: 'Environment',
-              },
-              {
-                title: 'Elder Care',
-                image: 'https://images.unsplash.com/photo-1516307365426-d8ac0056203e?auto=format&fit=crop&w=800&q=80',
-                description: 'Provide companionship and support to elderly community members through various programs.',
-                category: 'Healthcare',
-              },
-            ].map((project, index) => (
-              <div key={index} className="card group bg-white shadow-lg rounded-xl animate-fade-in-up">
+            {featuredProjects.slice(0, 3).map((project, index) => (
+              <div key={project.id} className="card group bg-white shadow-lg rounded-xl animate-fade-in-up">
                 <div className="relative overflow-hidden rounded-t-xl">
                   <img
                     src={project.image}
@@ -378,9 +352,9 @@ const Home = () => {
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-gray-600 mb-4">{project.description}</p>
+                  <p className="text-gray-600 mb-4">{project.shortDescription}</p>
                   <Link
-                    to="/projects"
+                    to={`/projects/${project.id}`}
                     className="inline-flex items-center text-red-500 hover:text-red-600 font-semibold group-hover:translate-x-2 transition-transform duration-200"
                   >
                     Learn More
@@ -441,22 +415,6 @@ const Home = () => {
               Subscribe
             </button>
           </form>
-        </div>
-      </section>
-
-      {/* Social Proof / Partners */}
-      <section className="py-12 bg-green-50 animate-fade-in-up">
-        <div className="max-w-5xl mx-auto px-4 text-center">
-          <h2 className="text-2xl font-bold mb-8">Our Partners & Recognition</h2>
-          <div className="flex flex-wrap justify-center items-center gap-8">
-            {partners.map((p, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <img src={p.logo} alt={p.name} className="h-16 w-auto mb-2 grayscale hover:grayscale-0 transition-all duration-300" />
-                <span className="text-sm text-gray-600">{p.name}</span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 text-gray-500 text-sm">As seen in: <span className="font-semibold">Awwwards, The Webby Awards, Times of India, NDTV</span></div>
         </div>
       </section>
     </>
