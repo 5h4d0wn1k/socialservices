@@ -22,24 +22,18 @@ const Navbar = () => {
       <nav className={`fixed w-full z-50 transition-all duration-200 ${
         isScrolled 
           ? 'backdrop-blur-md bg-white/70 shadow-lg border-b border-gray-200' 
-          : 'bg-transparent '
+          : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             <div className="flex items-center space-x-2">
               <Link to="/" className="flex items-center group">
-                <Heart className={`h-8 w-8 transform group-hover:scale-110 transition-all duration-200 ${
-                  isScrolled ? 'text-green-600' : 'text-white'
-                }`} />
-                <span className={`ml-2 text-xl font-bold group-hover:text-green-700 transition-all duration-200 ${
-                  isScrolled ? 'text-gray-900' : 'text-white'
-                }`}>
+                <Heart className="h-8 w-8 text-green-600 transform group-hover:scale-110 transition-transform duration-200" />
+                <span className="ml-2 text-xl font-bold text-gray-900 group-hover:text-green-700 transition-colors duration-200">
                   Shadownik
                 </span>
               </Link>
-              <span className={`ml-3 text-xs font-semibold hidden sm:block border-l pl-3 italic transition-all duration-200 ${
-                isScrolled ? 'text-green-700 border-green-200' : 'text-white border-white/30'
-              }`}>India's Movement for Harmony & Nature</span>
+              <span className="ml-3 text-xs text-green-700 font-semibold hidden sm:block border-l border-green-200 pl-3 italic">India’s Movement for Harmony & Nature</span>
             </div>
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-2">
@@ -55,12 +49,8 @@ const Navbar = () => {
                   to={item.path}
                   className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                     isActive(item.path)
-                      ? isScrolled 
-                        ? 'text-green-700 bg-green-100' 
-                        : 'text-white bg-white/20'
-                      : isScrolled
-                        ? 'text-gray-700 hover:text-green-700 hover:bg-green-50'
-                        : 'text-white hover:text-white hover:bg-white/20'
+                      ? 'text-green-700 bg-green-100'
+                      : 'text-gray-700 hover:text-green-700 hover:bg-green-50'
                   }`}
                 >
                   {item.label}
@@ -70,35 +60,19 @@ const Navbar = () => {
                 href="https://ngo.swnk.in"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`p-2 rounded-full transition-all duration-200 ${
-                  isScrolled 
-                    ? 'hover:bg-green-100' 
-                    : 'hover:bg-white/20'
-                }`}
+                className="p-2 rounded-full hover:bg-green-100 transition-colors"
                 aria-label="Visit our website"
               >
-                <Globe className={`h-6 w-6 transition-all duration-200 ${
-                  isScrolled ? 'text-green-700' : 'text-white'
-                }`} />
+                <Globe className="h-6 w-6 text-green-700" />
               </a>
               <a
                 href="https://linktr.ee/shadownik"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`p-2 rounded-full transition-all duration-200 ${
-                  isScrolled 
-                    ? 'hover:bg-green-100' 
-                    : 'hover:bg-white/20'
-                }`}
+                className="p-2 rounded-full hover:bg-green-100 transition-colors"
                 aria-label="Linktree"
               >
-                <img 
-                  src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linktree.svg" 
-                  alt="Linktree" 
-                  className={`h-6 w-6 transition-all duration-200 ${
-                    isScrolled ? 'filter-none' : 'filter brightness-0 invert'
-                  }`} 
-                />
+                <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linktree.svg" alt="Linktree" className="h-6 w-6" />
               </a>
               <Link
                 to="/register"
@@ -107,37 +81,19 @@ const Navbar = () => {
                 Join Us
               </Link>
               {/* Language Switcher (UI only) */}
-              <div className={`inline-flex items-center rounded-full px-2 py-1 ml-2 transition-all duration-200 ${
-                isScrolled ? 'bg-green-50' : 'bg-white/20'
-              }`}>
+              <div className="inline-flex items-center bg-green-50 rounded-full px-2 py-1 ml-2">
                 <span className="mr-1 text-xs">🌐</span>
-                <button className={`px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-green-400 text-xs transition-all duration-200 ${
-                  isScrolled 
-                    ? 'hover:bg-green-100' 
-                    : 'hover:bg-white/30 text-white'
-                }`}>EN</button>
-                <button className={`px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-green-400 text-xs transition-all duration-200 ${
-                  isScrolled 
-                    ? 'hover:bg-green-100' 
-                    : 'hover:bg-white/30 text-white'
-                }`}>HI</button>
+                <button className="px-2 py-1 rounded hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 text-xs">EN</button>
+                <button className="px-2 py-1 rounded hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 text-xs">HI</button>
               </div>
               {/* Accessibility Shortcut */}
-              <a href="#main-content" className={`ml-2 px-3 py-1 rounded-full text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-green-400 transition-all duration-200 ${
-                isScrolled 
-                  ? 'bg-green-100 text-green-700 hover:bg-green-200' 
-                  : 'bg-white/20 text-white hover:bg-white/30'
-              }`}>Skip to Content</a>
+              <a href="#main-content" className="ml-2 px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-green-400">Skip to Content</a>
             </div>
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`p-2 rounded-lg transition-all duration-200 ${
-                  isScrolled 
-                    ? 'text-green-700 hover:bg-green-100' 
-                    : 'text-white hover:bg-white/20'
-                }`}
+                className="p-2 rounded-lg text-green-700 hover:bg-green-100 transition-colors"
                 aria-label="Toggle menu"
               >
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
