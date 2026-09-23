@@ -57,4 +57,5 @@ PRs welcome for new pages, accessibility, and auth flows. Keep Supabase client u
 
 ## License
 
-No license file is included; all rights reserved by the author.
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
